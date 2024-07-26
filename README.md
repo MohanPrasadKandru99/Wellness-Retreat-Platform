@@ -1,7 +1,5 @@
 # Wellness Retreat Platform
 
-## Assignment Overview
-
 A backend service Web API to manage the retreat data for a fictional Wellness Retreat Platform. The service provides to fetch the retreat information and allows users to book a retreat.
 
 # Instructions to set up
