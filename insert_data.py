@@ -112,7 +112,9 @@ bookings = [
 ]
 
 with app.app_context():
-    db.session.add_all(retreats)
-    db.session.add_all(bookings)
+    if not Retreats.query.first():
+        db.session.add_all(retreats)
+    if not Bookings.query.first():
+        db.session.add_all(bookings)
     db.session.commit()
     print("Sample data inserted successfully!")

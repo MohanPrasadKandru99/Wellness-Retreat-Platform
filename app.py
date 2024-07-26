@@ -2,6 +2,8 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS  # Optional, for cross-origin requests
 from datetime import datetime
+import subprocess
+import sys
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://wellness_retreat_platform_user:wlxOUVlEKAXdVAzofVzKJAU0QiQKaY1E@dpg-cqhrvbggph6c73c9h1s0-a.singapore-postgres.render.com/wellness_retreat_platform"
@@ -13,6 +15,12 @@ db = SQLAlchemy(app)
 # Optional: Enable CORS if accessing from different domains
 CORS(app)
 
+def run_script(script_name):
+    result = subprocess.run([sys.executable, script_name], capture_output=True, text=True)
+    print(result.stdout)
+    if result.returncode != 0:
+        print(result.stderr)
+        sys.exit(result.returncode)
 
 class Retreats(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -171,4 +179,6 @@ def create_booking():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    run_script("init_db.py")
+    run_script("insert_data.py")
+    app.run()
